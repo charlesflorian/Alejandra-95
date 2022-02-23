@@ -5,7 +5,7 @@ import configparser
 import datetime
 
 
-def fetch_tweets(user: str, user_id: int):
+def fetch_tweets(user: str, user_id: int, limit: int):
     # read credentials config file
     config = configparser.ConfigParser()
     config.read("config.ini")
@@ -22,7 +22,6 @@ def fetch_tweets(user: str, user_id: int):
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth)
 
-    limit = 20
     StartDate = datetime.datetime(2017, 1, 1, 0, 0, 0)
     EndDate = datetime.datetime(2022, 2, 20, 0, 0, 0)
     # if we want more than 200 tweets then we need to alter the code
@@ -83,6 +82,8 @@ def main():
     user_group = parser.add_mutually_exclusive_group(required=True)
     user_group.add_argument("--user_id", type=int)
     user_group.add_argument("--user")
+
+    parser.add_argument("--limit", type=int, default=20)
 
     args = parser.parse_args()
 
